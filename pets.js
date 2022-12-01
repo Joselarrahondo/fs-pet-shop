@@ -16,7 +16,7 @@ if (subcommand === "read") {
     }
   });
 
-  
+
 } else if ( subcommand === "create"){
     const age = process.argv[3];
     const name = process.argv[4];
@@ -27,17 +27,23 @@ if (subcommand === "read") {
         pets.push(pet);
        return writeFile("./pets.json", JSON.stringify(pets));
     });
+    
 
 
 } else if (subcommand === "destroy"){
     const petIndex = process.argv[3]
     readFile("./pets.json", "utf-8").then((text) => {
         const pets = JSON.parse(text);
-        if(petIndex !== undefined){
-            return delete(pets[petIndex])
-        }
+         pets.splice()
+        console.log(pets)
+        if(pets[petIndex]!== undefined){
+            delete(pets[petIndex])
+        //    console.log(pets)
+        return writeFile("./pets.json", JSON.stringify(pets));
+        } 
+            
 
-    })
+    }) 
 
 
 }else {
