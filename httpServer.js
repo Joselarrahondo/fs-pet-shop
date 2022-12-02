@@ -6,7 +6,7 @@ const petRegExp = /^\/pets\/(.*)$/
 const server = http.createServer((request, response) => {
     const {method, url} = request; 
 
-    if(method === "GET" && url === '/pets'){
+if(method === "GET" && url === '/pets'){
    readFile('./pets.json', "utf-8").then((text) => {
     response.statusCode = 200; 
     response.setHeader("Content-Type", "application/json");
@@ -21,7 +21,8 @@ const server = http.createServer((request, response) => {
     response.statusCode = 200; 
      const pets = JSON.parse(text)
      const selectedPets = pets[petIndex]
-//////////////// CREATE CONDITION TO READ DATA AND DETERMIND IF USER SLECTES UNAVAILABLE INDEX //////////     
+
+     //////////////// CREATE CONDITION TO READ DATA AND DETERMIND IF USER SLECTES UNAVAILABLE INDEX //////////     
  
 if (petIndex >= 0 && petIndex <= pets.length -1){
      response.setHeader("Content-Type", "application/json");
@@ -30,6 +31,7 @@ if (petIndex >= 0 && petIndex <= pets.length -1){
  }
 
 });   
+
 }else {
     response.setHeader("Content-Type", "tex/plaintext");
     response.statusCode = 404;
