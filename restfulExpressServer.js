@@ -65,41 +65,29 @@ server.post("/pets", (req, res, next) => {
 
                                         ///////////// USING A PATCH REQUEST/////////
 
-server.patch("/pets/:id", async (req, res) => {
-    const id = req.params.id;
-    const pet = req.body;
+server.patch("/pets/:id", (req, res) => {
+    const {id} = req.params;
+    const {age, name, kind} = req.body;
    
-    const {name, kind, age} = pet;
-    
-    if(pet.age !== undefined) {
-        sql `UPDATE pets SET age = ${age} WHERE id = ${id} RETURNING *`.then(
-            (result) =>{
-                res.status(201);
-                res.json(result[0]);
-            });
-    } 
-    if(pet.name !== undefined) {
-        sql `UPDATE pets SET name= ${name} WHERE id = ${id} RETURNING *`.then(
-            (result) =>{
-                res.status(201);
-                res.json(result[0]);
-            });
-    } 
-    if(pet.kind !== undefined) {
-        sql `UPDATE pets SET kind =${kind} WHERE id = ${id} RETURNING *`.then(
-            (result) =>{
-                res.status(201);
-                res.json(result[0]);
-            });
-    } 
+        sql `UPDATE pets SET 
+        age=COALESCE(${age || null}, age), 
+        name=COALESCE(${name || null}, name), 
+        kind=COALESCE(${kind || null}, kind)  
+        WHERE id = ${id} RETURNING *
+        `.then((result) => {
+            res.send(result[0]);
+        });
     });
+  
 
 
    
                                             ////////////USING A DELETE REQUEST////////////
-server.delete("/pets/:index", (req, res) => {
+
+        server.delete("/pets/:index", (req, res) => {
         const {index} = req.params;
         sql `DELETE FROM pets WHERE id = ${index} RETURNING *`.then((result) => {
+            res.status()
             res.send(result[0]);
         })
     });
